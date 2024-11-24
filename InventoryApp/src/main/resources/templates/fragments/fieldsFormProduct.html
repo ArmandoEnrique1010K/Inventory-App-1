@@ -1,0 +1,42 @@
+<!-- Campo nombre -->
+<div th:fragment="fieldFormProductName" class="mb-3">
+    <label class="form-label" for="txtName">Nombre</label>
+    <input class="form-control" type="text" th:field="*{name}" name="name" id="txtName">
+    <!-- Muestra el mensaje de error definido en el campo nombre desde la entidad -->
+    <div class="alert alert-danger p-2 my-3" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+</div>
+
+<!-- Campo fecha de entrada -->
+<div th:fragment="fieldFormProductEntryDate" class="mb-3">
+    <label class="form-label" for="txtEntryDate">Fecha</label>
+    <input class="form-control" type="date" th:field="*{entryDate}" name="entryDate" id="txtEntryDate">
+</div>
+
+<!-- Campo cantidad -->
+<div th:fragment="fieldFormProductQuantity" class="mb-3">
+    <label class="form-label" for="txtQuantity">Cantidad (u.)</label>
+    <input class="form-control" type="number" th:field="*{quantity}" name="quantity" id="txtQuantity">
+    <!-- Muestra el mensaje de error definido en el campo cantidad desde la entidad -->
+    <div class="alert alert-danger p-2 my-3" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></div>
+</div>
+
+<!-- Campo largo -->
+<div th:fragment="fieldFormProductLength" class="mb-3">
+    <label class="form-label" for="txtLenght">Largo (cm.)</label>
+    <input class="form-control" type="number" th:field="*{length}" name="length" id="txtLenght" step="any">
+</div>
+
+<!-- Campo ancho -->
+<div th:fragment="fieldFormProductWidth" class="mb-3">
+    <label class="form-label" for="txtWidth">Ancho (cm.)</label>
+    <input class="form-control" type="number" th:field="*{width}" name="width" id="txtWidth" step="any">
+</div>
+
+<!-- Campo imagen -->
+<div th:fragment="fieldFormProductFileImage" class="mb-3">
+    <label class="form-label" for="btnFileImage">Imagen</label>
+    <input class="form-control" type="file" th:field="*{fileImage}" name="fileImage" id="btnFileImage"
+        accept=".jpg, .jpeg, .png, .gif">
+    <!-- Muestra el mensaje de error definido en el campo imagen desde el controlador -->
+    <div class="alert alert-danger p-2 my-3" th:if="${imageError}" th:text="${imageError}"></div>
+</div>

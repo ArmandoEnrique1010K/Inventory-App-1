@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <div th:replace="~{fragments/navbar :: navbar}"></div>
+        <h1 class="text-center my-3">Editar el producto seleccionado</h1>
+        <form th:action="@{/products/edit/{id}(id=${id})}" th:object="${product}" method="POST"
+            enctype="multipart/form-data" autocomplete="off">
+            <div class="mb-3">
+                <label class="form-label" for="txtId">Id</label>
+                <input class="form-control" type="text" id="txtId" disabled th:value="${id}">
+            </div>
+            <div th:replace="~{fragments/fieldsFormProduct :: fieldFormProductName}"></div>
+            <div th:replace="~{fragments/fieldsFormProduct :: fieldFormProductEntryDate}"></div>
+            <div th:replace="~{fragments/fieldsFormProduct :: fieldFormProductQuantity}"></div>
+
+            <div class="mb-3">
+                <button type="button" class="btn btn-secondary" onclick="showQuantityCalculator()">Calcular la
+                    cantidad</button>
+            </div>
+            <!-- Calculadora de cantidad -->
+            <div id="divCalculator" style="display: none;">
+                <div class="form-label">Operación:</div>
+
+                <div class="mb-3">
+                    <div class="my-1">
+                        <input class="form-check-input" id="rdoAddQuantity" name="operation" type="radio" checked>
+                        <label class="form-check-label" for="rdoAddQuantity">Agregar</label>
+                    </div>
+                    <div class="my-1">
+                        <input class="form-check-input" id="rdoSubstractQuantity" name="operation" type="radio">
+                        <label class="form-check-label" for="rdoSubstractQuantity">Disminuir</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtQuantityCalculator">Unidades: </label>
+                    <input class="form-control bg-warning" style="--bs-bg-opacity: 0.2;" type="number"
+                        name="quantityCalculator" id="txtQuantityCalculator" value="0" min="0">
+                </div>
+                <div id="errorQuantityCalculator"></div>
+
+            </div>
+            <div th:replace="~{fragments/fieldsFormProduct :: fieldFormProductLength}"></div>
+            <div th:replace="~{fragments/fieldsFormProduct :: fieldFormProductWidth}"></div>
+            <div class="mb-3">
+                <label class="form-label" for="cboCategory">Categoria</label>
+                <select class="form-select" id="cboCategory" name="categoryName" th:field="*{categoryName}">
+                    <option th:each="category: ${categories}" th:value="${category.name}" th:text="${category.name}">
+                    </option>
+                </select>
+            </div>
+            <div th:replace="~{fragments/fieldsFormProduct :: fieldFormProductFileImage}"></div>
+
+            <!-- Cuadro para previsualizar la imagen subida -->
+            <div class="my-4 d-flex justify-content-center">
+                <img id="previewImage" class="w-50" th:src="@{/image/{name}(name=${product.nameImage})}">
+            </div>
+
+            <div class="text-center my-4">
+                <button class="btn btn-success mx-2" type="submit">Guardar cambios</button>
+                <a class="btn btn-secondary mx-2" th:href="@{/products}">Regresar</a>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" th:inline="javascript" th:src="@{/js/imagePreview.js}"></script>
+    <script type="text/javascript" th:inline="javascript" th:src="@{/js/quantityCalculator.js}"></script>
+    <script type="text/javascript" th:inline="javascript" th:src="@{/js/showQuantityCalculator.js}"></script>
+
+</body>
+
+</html>

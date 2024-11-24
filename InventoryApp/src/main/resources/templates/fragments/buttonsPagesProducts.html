@@ -1,0 +1,38 @@
+<!-- Este fragmento contiene los botones de navegacion entre paginas -->
+<div th:fragment="buttonsPagesProducts">
+    <ul class="pagination justify-content-center">
+        <!-- IR A LA PRIMERA PAGINA -->
+        <!-- Se asigna una clase CSS dinamica con th:class, además se tiene un operador ternario para evaluar si page.first es true -->
+        <li class="page-item" th:class="${page.first ? 'page-item disabled' : 'page-item'}">
+            <span class="page-link" th:if="${page.first}">Primera</span>
+            <a class="page-link" th:if="${not page.first}" th:href="@{${page.baseUrl}(page=0)}">Primera</a>
+        </li>
+        <!-- IR A LA ANTERIOR PAGINA -->
+        <li class="page-item" th:class="${not page.hasPrevious ? 'page-item disabled': 'page-item'}">
+            <span class="page-link" th:if="${not page.hasPrevious}">Anterior</span>
+            <a class="page-link" th:if="${page.hasPrevious}"
+                th:href="@{${page.baseUrl}(page=${page.currentPageNumber - 2})}">Anterior</a>
+        </li>
+        <!-- IR A LA PAGINA ... -->
+        <li class="page-item" th:each="item : ${page.pageItems}"
+            th:class="${item.isCurrentPage ? 'page-item active': 'page-item'}">
+            <span class="page-link" th:if="${item.isCurrentPage}" th:text="${item.pageNumber}"></span>
+            <a class="page-link" th:if="${not item.isCurrentPage}"
+                th:href="@{${page.baseUrl}(page=${item.pageNumber - 1})}" th:text="${item.pageNumber}"></a>
+        </li>
+        <!-- IR A LA SIGUIENTE PAGINA -->
+        <li class="page-item" th:class="${not page.hasNext ? 'page-item disabled': 'page-item'}">
+            <span class="page-link" th:if="${not page.hasNext}">Siguiente</span>
+            <a class="page-link" th:if="${page.hasNext}"
+                th:href="@{${page.baseUrl}(page=${page.currentPageNumber})}">Siguiente</a>
+        </li>
+        <!-- IR A LA UTLIMA PAGINA -->
+        <li class="page-item" th:class="${page.last? 'page-item disabled' : 'page-item'}">
+            <span class="page-link" th:if="${page.last}">Última</span>
+            <a class="page-link" th:if="${not page.last}"
+                th:href="@{${page.baseUrl}(page=${page.totalPages - 1})}">Última</a>
+        </li>
+    </ul>
+</div>
+
+<!-- https://getbootstrap.com/docs/5.3/components/pagination/ -->

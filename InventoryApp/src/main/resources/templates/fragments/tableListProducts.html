@@ -1,0 +1,70 @@
+<div class="table-responsive" th:fragment="tableListProducts">
+    <!-- No se añade la clase de bootstrap "table-striped" porque se utiliza colores para las filas de la tabla  -->
+    <table class="table  table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th>Largo</th>
+                <th>Ancho</th>
+                <th>Cantidad</th>
+                <!-- colspan combina las celdas y sec:authorize muestra el contenido si el usuario tiene el rol de ADMIN -->
+                <th colspan="2" sec:authorize="hasRole('ROLE_ADMIN')">Operaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Fila dinamica por cada producto -->
+            <tr th:each="product : ${products}">
+                <!-- th:style sirve para aplicar el color definido en la base de datos en formato hexadecimal -->
+                <td th:style="'background-color:' + ${product.categoryColor}" th:text="${product.id}"></td>
+                <td th:style="'background-color:' + ${product.categoryColor}">
+                    <!-- Ruta hacia la pagina de detalles de un producto -->
+                    <a th:href="@{/products/details/{id} (id=${product.id})}">
+                        <!-- Ruta hacia la imagen definida en el controlador -->
+                        <img th:src="@{/image/{name}(name=${product.nameImage})}" width="100px"
+                            style="border: 1px solid black;">
+                    </a>
+                </td>
+
+                <td th:style="'background-color:' + ${product.categoryColor}" th:text="${product.name}"></td>
+                <!-- Thymeleaf se encarga de aplicar un formato para la fecha -->
+                <!-- <td th:text="${product.entryDate}"></td> -->
+                <td th:style="'background-color:' + ${product.categoryColor}"
+                    th:text="${#temporals.format(product.entryDate, 'dd/MM/yyyy')}"></td>
+
+                <!-- Thymeleaf utiliza th:if y th:unless para mostrar un contenido de acuerdo a una condición -->
+                <td th:style="'background-color:' + ${product.categoryColor}" th:if="${product.length != null}"
+                    th:text="${#numbers.formatDecimal(product.length, 0, 2,)} + ' ' + cm."></td>
+                <td th:style="'background-color:' + ${product.categoryColor}" th:unless="${product.length != null}"
+                    th:text="' '"></td>
+
+                <!-- numbers.formatDecimal() aplica un formato decimal al numero, se establece 2 decimales -->
+                <td th:style="'background-color:' + ${product.categoryColor}" th:if="${product.width != null}"
+                    th:text="${#numbers.formatDecimal(product.width, 0, 2)} + ' ' + cm."></td>
+                <td th:style="'background-color:' + ${product.categoryColor}" th:unless="${product.width != null}"
+                    th:text="' '"></td>
+
+                <!-- numbers.formatDecimal() tambien se utiliza para mostrar un punto por cada 3 cifras enteras -->
+                <!-- <td th:text="${product.quantity} + ' ' + u."></td> -->
+                <td th:style="'background-color:' + ${product.categoryColor}"
+                    th:text="${#numbers.formatDecimal(product.quantity, 0, 'POINT', 0, 'COMMA')} + ' ' + u."></td>
+
+                <!-- Los siguientes botones se visualizan si el usuario tiene el rol de ADMIN -->
+                <td th:style="'background-color:' + ${product.categoryColor}" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <!-- Actualizar los datos de un producto -->
+                    <a class="btn btn-primary" th:href="@{/products/edit/{id}(id=${product.id})}"><img
+                            th:src="@{/icons/update-icon.svg}" width="20px"></a>
+                </td>
+                <td th:style="'background-color:' + ${product.categoryColor}" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <!-- Eliminar un producto -->
+                    <form th:action="@{/products/delete/{id}(id=${product.id})}" method="POST">
+                        <button class="btn btn-danger" type="submit"><img th:src="@{/icons/delete-icon.svg}"
+                                width="20px"></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

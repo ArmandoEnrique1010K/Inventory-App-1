@@ -1,0 +1,54 @@
+<nav th:fragment="navbar" class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body"
+    data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/products}"><img th:src="@{/img/logo.png}" width="100px"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Submenu de productos por categoria -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Productos
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- Sección de todos los productos -->
+                        <li><a class="dropdown-item" th:href="@{/products}">Todos los productos</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <!-- Sección de lista de categorias -->
+                        <li th:each="category : ${categories}"><a class="dropdown-item"
+                                th:href="@{/products/category/{categoryId}(categoryId = ${category.id})}"
+                                th:text="${category.name}"></a></li>
+                        <li>
+                    </ul>
+                </li>
+                <!-- Menu de categorias -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/categories}">Categorias</a>
+                </li>
+                <!-- Menu de usuarios -->
+                <li sec:authorize="hasRole('ROLE_MANAGER')" class="nav-item">
+                    <a class="nav-link" th:href="@{/users}">Usuarios</a>
+                </li>
+
+            </ul>
+            <!-- Menu de opciones (aplica un margen automatico a la izquierda)-->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Opciones
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/profile}">Mi perfil</a></li>
+                        <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesion</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

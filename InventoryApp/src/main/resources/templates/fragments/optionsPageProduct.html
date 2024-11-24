@@ -1,0 +1,14 @@
+<!-- Fragmento de la barra de busqueda -->
+<div class="my-4 col" th:fragment="optionPageProductSearchBar">
+    <form class="d-flex" th:action="@{/products/search}" method="GET">
+        <input id="searchBar" class="form-control me-2" type="search" name="word" placeholder="Buscar productos..."
+            autocomplete="off" th:value="${keyword}">
+        <button id="searchButton" class="btn btn-primary px-3 align-content-center" type="submit"
+            onclick="findProducts()"><img th:src="@{/icons/search-icon.svg}" width="20px"></button>
+    </form>
+</div>
+
+<!-- Fragmento del boton de añadir producto -->
+<div th:fragment="optionPageProductButtonAdd" sec:authorize="hasRole('ROLE_ADMIN')" class="col mb-4">
+    <a class="btn btn-primary" th:href="@{/products/add}">Agregar</a>
+</div>
